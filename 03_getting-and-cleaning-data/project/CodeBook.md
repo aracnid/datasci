@@ -1,23 +1,24 @@
 # Codebook
 ### Source Data
 The source data is contained in the **data/** directory relative to the R script.
-The source data is described in detail in the files **data/README.md** and **data/features_info.txt** and is summarized here.
+The source data is described in detail in the files **data/README.md** and **data/features_info.txt** and is summarized here.  The source data is not contained in this repository.
 
 The main data sets are found in the files **data/train/X_train.txt** and **data/test/X_test.txt**.  The main data sets contain 561 measurement variables.  The list of features is described in the file **data/features.txt**.
 
 There are two additional variables that are contained in separate files:
-- The _activity label_ variables is contained in the files **data/train/y_train.txt** and **data/test/y_test.txt**.  This variable is numeric and is described in the file **data/activity_labels.txt**.
+- The _activity label_ variable is contained in the files **data/train/y_train.txt** and **data/test/y_test.txt**.  This variable is numeric and is described in the file **data/activity_labels.txt**.
 - The _subject_ who performed the activity is contained in the files **data/train/subject_train.txt** and **data/test/subject_test.txt**.
 
 ### Output Data
 The output data is a summary table that contains the averages of each of the mean() and std() features, separated by subject and activity.
 - _Row 1_:  `subject`
 - _Row 2_:  `activity`
-- _Rows 3-68:  mean() and std() features
+- _Rows 3-68_:  mean() and std() features
 
 ### Data Transformations
 The following is a sequential list of data transformations that were performed on the source data to produce the output data.
-1. The training data was read into a data frame.
+
+1. The training data was read into a data frame (`df`).
 2. The unnecessary feature columns were dropped.  The remaining columns were all mean() ans std() measurements.
 3. The `subject` column was added from **data/train/subject_train.txt**.
 4. The `activity_num` column was added from **data/train/y_train.txt**
@@ -25,7 +26,7 @@ The following is a sequential list of data transformations that were performed o
 6. Then the `activity_num` column was dropped.
 7. The test data was read into a data frame by repeating steps 1-6 on the test data set.
 8. The training data frame was combined with the test data frame to form the full data set.
-9. Using the "ddply" function on the full data set, the data frame was split on `subject` and `activity` and a column-wise mean was calculated on each feature variables.  The result was returned as another data frame.
+9. Using the `ddply()` function on the full data set, the data frame was split on `subject` and `activity` and a column-wise mean was calculated on each feature variables.  The result was returned as another data frame.
 10. Finally, the averages data frame was written to the file **tidy.txt**.
 
 ### R Script Variables
@@ -52,7 +53,7 @@ function:  getData(filename)
 - `dfJoined`:  the joined data frame from the merging of `dfSliced` and `TABLE_LABELS`
 
 ## Appendix. Columns in the Output Data
-The following is a list of the columns found in the output data set, **tidy.txt**.  The names of the mean() and std() features was modified slightly from the original set described in the file **data/features.txt**.  The reason is that the data frame structure does not render symbols in the names of the columns.  Dashes ("-") were replaced by underscores ("\_") and parentheses were removed.  For example, the original feature named, tBodyAcc-mean()-X, was renamed to tBodyAcc\_mean\_X.
+The following is a list of the columns found in the output data set, **tidy.txt**.  The names of the mean() and std() features was modified slightly from the original set described in the file **data/features.txt**.  The reason is that the data frame structure does not render symbols in the names of the columns.  Dashes ("-") were replaced by underscores ("\_") and parentheses were removed.  For example, the original feature named, "tBodyAcc-mean()-X", was renamed to "tBodyAcc\_mean\_X".
 
 ```
 subject
