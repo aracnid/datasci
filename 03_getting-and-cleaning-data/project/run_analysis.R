@@ -1,9 +1,12 @@
 library(plyr)
 
 NUMROWS <- -1    # set to -1 to read all rows
+# read the features data frame
 TABLE_FEATURES <- read.table("data/features.txt", sep="")
-TABLE_LABELS <- read.table("data/activity_labels.txt", sep="", col.names=c("activity_num", "activity"))
+# get the features from the features data frame
 FEATURES <- TABLE_FEATURES$V2
+# read the activity lables data frame
+TABLE_LABELS <- read.table("data/activity_labels.txt", sep="", col.names=c("activity_num", "activity"))
 # process the names to remove symbols, data frame col.names don't like symbols
 COL_NAMES <- lapply(FEATURES, function(X) gsub("\\(|\\)", "", gsub("-", "_", X)))
 # create an include list to extract only the mean() and std() features
@@ -29,7 +32,7 @@ getData <- function(filename) {
   # add the activities feature to the data frame
   filenameActivities <- sub("X", "y", filename)
   tableActivities <- read.table(filenameActivities, nrows=NUMROWS)
-  dfSliced$activity_num <- tableActivities[,1]  # actnum is a data frame, slice it to get a list of ints
+  dfSliced$activity_num <- tableActivities[,1]  # tableActivities is a data frame, slice it to get a list of ints
   
   # join with "activity_labels.txt" to add the activity names
   dfJoined <- merge(dfSliced, TABLE_LABELS, by="activity_num", all.x=TRUE)
